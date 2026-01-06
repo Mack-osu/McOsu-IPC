@@ -1,4 +1,23 @@
-# McOsu
+# McOsu-IPC (Fork of McOsu)
+
+This is a fork of [McOsu]([https://github.com/username/mcosu](https://github.com/McKay42/McOsu)) with additional
+functionality for sending gameplay events via localhost HTTP POST requests.
+
+## Differences from upstream McOsu
+
+This fork adds:
+- Localhost HTTP POST support for sending game events to external applications.
+
+## Localhost Communication
+
+This fork sends HTTP POST requests to 127.0.0.1:3000 in the form of JSON data.
+
+It currently broadcasts:
+- Score submission
+
+---
+
+# Original McOsu README
 
 **[DOWNLOAD > https://github.com/McKay42/McOsu/releases](https://github.com/McKay42/McOsu/releases)**
 
