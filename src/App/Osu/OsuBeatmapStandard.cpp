@@ -5,6 +5,8 @@
 // $NoKeywords: $osustd
 //===============================================================================//
 
+#include "McOsuScorePoster.h"
+
 #include "OsuBeatmapStandard.h"
 
 #include "Engine.h"
@@ -1731,6 +1733,19 @@ void OsuBeatmapStandard::onBeforeStop(bool quit)
 				scoreIndex = m_osu->getSongBrowser()->getDatabase()->addScore(m_selectedDifficulty2->getMD5Hash(), score);
 				if (scoreIndex == -1)
 					m_osu->getNotificationOverlay()->addNotification(UString::format("Failed saving score! md5hash.length() = %i", m_selectedDifficulty2->getMD5Hash().length()), 0xffff0000, false, 3.0f);
+			
+				// McOsu-IPC fork modification
+
+				McOsuScorePoster::AdditionalScoreData additionalScoreData;
+				additionalScoreData.accuracy = m_osu->getScore()->getAccuracy();
+				additionalScoreData.grade = m_osu->getScore()->getGrade();
+				additionalScoreData.pp_max = m_osu->getSongBrowser()->getDynamicStarCalculator()->getPPv2();
+				additionalScoreData.pp_fc = OsuDifficultyCalculator::calculatePPv2(m_osu, this, attributes, numHitObjects, numCircles, numSliders, numSpinners, maxPossibleCombo, maxPossibleCombo, 0, num300s + numMisses, num100s, num50s, legacyTotalScore);
+				additionalScoreData.mod_string = m_osu->getScore()->getModsStringForRichPresence().toUtf8();
+
+				McOsuScorePoster::PostScore("http://127.0.0.1:3000/event", score, *m_selectedDifficulty2, additionalScoreData);
+
+				// End of McOsu-IPC fork modification
 			}
 			debugLog("OsuBeatmapStandard::onBeforeStop() done.\n");
 		}
