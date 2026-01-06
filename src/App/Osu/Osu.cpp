@@ -5,6 +5,8 @@
 // $NoKeywords: $osu
 //===============================================================================//
 
+#include "McOsuScorePoster.h"
+
 #include "OsuDatabase.h"
 #include "Osu.h"
 
@@ -140,6 +142,8 @@ Vector2 Osu::osuBaseResolution = Vector2(640.0f, 480.0f);
 
 Osu::Osu(Osu2 *osu2, int instanceID)
 {
+	McOsuScorePoster::Init();
+
 	srand(time(NULL));
 
 	m_osu2 = osu2;
@@ -556,6 +560,8 @@ Osu::Osu(Osu2 *osu2, int instanceID)
 
 Osu::~Osu()
 {
+	McOsuScorePoster::Shutdown();
+
 	// "leak" OsuUpdateHandler object, but not relevant since shutdown:
 	// this is the only way of handling instant user shutdown requests properly, there is no solution for active working threads besides letting the OS kill them when the main threads exits.
 	// we must not delete the update handler object, because the thread is potentially still accessing members during shutdown
