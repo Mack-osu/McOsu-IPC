@@ -67,7 +67,7 @@
 
 // release configuration
 bool Osu::autoUpdater = false;
-ConVar osu_version("osu_version", 33.13f, FCVAR_NONE);
+ConVar osu_version("osu_version", 33.14f, FCVAR_NONE);
 #ifdef MCENGINE_FEATURE_OPENVR
 ConVar osu_release_stream("osu_release_stream", "vr", FCVAR_NONE);
 #else
@@ -890,6 +890,7 @@ void Osu::update()
 	}
 
 	// main beatmap update
+	m_bIsSeekFrame = false;
 	m_bSeeking = false;
 	if (isInPlayMode())
 	{
@@ -918,6 +919,7 @@ void Osu::update()
 							getSelectedBeatmap()->cancelFailing();
 
 						getSelectedBeatmap()->seekPercentPlayable(percent);
+						m_bIsSeekFrame = true;
 					}
 					else
 					{
